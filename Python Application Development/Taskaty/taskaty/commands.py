@@ -35,31 +35,49 @@ def list_tasks(args, store: list[Task]) -> int:
         print("All tasks are checked! Use -a/--all to see them")
         return 0
 
+    dash = "-" if args.ascii else "—"
+    check = "[x]" if args.ascii else "✔"
+    cross = "[ ]" if args.ascii else "✘"
+
     header = ["#", "Title", "Description", "Start Date", "End Date"]
     header.append("Done" if args.all else "Due In")
 
     rows = []
     for i, t in enumerate(store, 1):
-        if not args.all and t.done: continue
-        row = [str(i)] + t.to_list()
-        row.append("✔" if t.done else "✘") if args.all else row.append(t.due_in())
+        if not args.all and t.done:
+            continue
+        
+        row = [
+            str(i),
+            t.title,
+            t.description or dash,
+            t.start_date.isoformat() if t.start_date else dash,
+            t.end_date.isoformat() if t.end_date else dash,
+            (check if t.done else cross) if args.all else t.due_in()
+        ]
         rows.append(row)
 
-    widths = [max(len(c) for c in col) for col in zip(header, *rows)]
-    def hline(l, m, r): return l + m.join("─" * (w + 2) for w in widths) + r
-    def render(cells):
-        parts = []
-        for i, (c, w) in enumerate(zip(cells, widths)):
-            align = "<" if i == 0 else "^"
-            parts.append(f" {c:{align}{w}} ")
-        return "│" + "│".join(parts) + "│"
+    widths = [max(len(str(c)) for c in col) for col in zip(header, *rows)]
 
-    print(hline("┌", "┬", "┐"))
-    print(render(header))
-    print(hline("├", "┼", "┤"))
-    for row in rows: print(render(row))
-    print(hline("└", "┴", "┘"))
-    print(f"\n{len(rows)} task(s)")
+    def fmt(r):
+        return " | ".join(f"{c:>{w}}" if i == 0 else f"{c:^{w}}" for i, (c, w) in enumerate(zip(r, widths)))
+
+    if args.ascii:
+        print(fmt(header))
+        print("-+-".join("-" * w for w in widths))
+        for row in rows:
+            print(fmt(row))
+    else:
+        def hline(l, m, r): return l + m.join("─" * (w + 2) for w in widths) + r
+        def fmt_unicode(r): return "│" + "│".join(f" {c:>{w}} " if i == 0 else f" {c:^{w}} " for i, (c, w) in enumerate(zip(r, widths))) + "│"
+
+        print(hline("┌", "┬", "┐"))
+        print(fmt_unicode(header))
+        print(hline("├", "┼", "┤"))
+        for row in rows:
+            print(fmt_unicode(row))
+        print(hline("└", "┴", "┘"))
+        
     return 0
 
 
