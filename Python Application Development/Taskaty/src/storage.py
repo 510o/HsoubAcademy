@@ -9,7 +9,7 @@ def load_tasks(file_name: Path) -> list[Task]:
     tmp_path.unlink(missing_ok=True)
 
     try:
-        with open(file_name, encoding='utf-8') as f:
+        with open(file_name, encoding="utf-8") as f:
             return [Task.from_dict(d) for d in load(f)]
     except FileNotFoundError: return []
 

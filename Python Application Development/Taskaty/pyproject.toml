@@ -1,0 +1,12 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "taskaty"
+version = "1.0.0"
+description = "A simple CLI task manager"
+requires-python = ">=3.11"
+
+[project.scripts]
+taskaty = "taskaty.cli:main"
