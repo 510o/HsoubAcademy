@@ -28,7 +28,7 @@ class Task:
         return d
 
     @classmethod
-    def from_dict(cls, d: dict) -> Task:
+    def from_dict(cls, d: dict) -> "Task":
         def parse(v):
             return date.fromisoformat(v) if v else None
         

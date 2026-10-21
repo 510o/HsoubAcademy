@@ -6,7 +6,13 @@ build-backend = "hatchling.build"
 name = "taskaty"
 version = "1.0.0"
 description = "A simple CLI task manager"
+readme = "README.md"
 requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [{ name = "510o" }]
 
 [project.scripts]
-taskaty = "taskaty.cli:main"
+taskaty = "taskaty:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["taskaty"]

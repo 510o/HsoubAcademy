@@ -3,8 +3,9 @@ from argparse import ArgumentParser
 from functools import partial
 from datetime import date
 
+
 def build_parser(store):
-    parser = ArgumentParser(description="CLI Task Manager")
+    parser = ArgumentParser(description="A Simple CLI Task Manager")
     subparsers = parser.add_subparsers(dest="command", required=True)
 
     add_parser = subparsers.add_parser("add", help="Add the given task")
