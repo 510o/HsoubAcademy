@@ -90,15 +90,21 @@ def _task_index(num: int, store: list[Task], parser) -> int:
 
 def check_task(args, store: list[Task], parser) -> int:
     idx = _task_index(args.task, store, parser)
-    store[idx].done = True
+    task = store[idx]
+    
+    if task.done:
+        print(f"Task {args.task} is already checked")
+        return 0
+        
+    task.done = True
     return 0
 
 
 def remove_task(args, store: list[Task], parser) -> int:
     flags = [n for n, on in (
-        ('<task>',      args.task is not None),
-        ('-a/--all',    args.all),
-        ('-d/--done',   args.done),
+        ('<task>', args.task is not None),
+        ('-a/--all', args.all),
+        ('-d/--done', args.done),
     ) if on]
 
     if not flags:
