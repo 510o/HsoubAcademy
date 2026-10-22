@@ -1,5 +1,5 @@
 """Taskaty - a simple CLI task manager"""
-__version__ = "1.2.0"
+__version__ = "1.3.0"
 
 from .cli import build_parser
 from .storage import load_tasks, save_tasks
