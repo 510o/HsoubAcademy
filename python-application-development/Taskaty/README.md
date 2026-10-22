@@ -10,9 +10,27 @@ A simple CLI task manager with dates and due-time tracking.
 - Stores tasks safely in JSON.
 
 ## Installation
+Requires Python 3.11+.
+
+### Option 1: Direct install (For users)
+Install the package directly from the repository without cloning the entire academy monorepo:
 ```bash
-git clone https://github.com/510o/HsoubAcademy.git
-cd "HsoubAcademy/Python Application Development/Taskaty"
+pip install "git+https://github.com/510o/HsoubAcademy.git#egg=taskaty&subdirectory=python-application-development/Taskaty"
+```
+
+### Option 2: Clone & modify (For developers)
+If you want to explore the source code or contribute, clone only this project's folder using sparse-checkout:
+
+```bash
+git clone --filter=blob:none --no-checkout https://github.com/510o/HsoubAcademy.git
+cd HsoubAcademy
+git sparse-checkout init --cone
+git sparse-checkout set python-application-development/Taskaty
+git checkout main
+cd python-application-development/Taskaty
+```
+(Optional) If you want to run the taskaty command locally from this cloned folder, install it in editable mode:
+```bash
 pip install -e .
 ```
 
